@@ -31,15 +31,25 @@ class Usuario(Base):
 # usuario = session.query(Usuario).filter_by(nome='Matheus').first()
 # print(f"Usuário encontrado: {usuario.nome}, Idade: {usuario.idade}")
 
-Session = sessionmaker(bind=engine)
-session = Session()
+# Session = sessionmaker(bind=engine)
+# session = Session()
 
-try:
-    novo_usuario = Usuario(nome='Ana', idade=25)
+# try:
+#     novo_usuario = Usuario(nome='Ana', idade=25)
+#     session.add(novo_usuario)
+#     session.commit()
+# except:
+#     session.rollback()
+#     raise
+# finally:
+#     session.close()
+
+## USANDO GERENCIADOR DE CONTEXTO
+Session = sessionmaker(bind=engine)
+
+with Session() as session:
+    novo_usuario = Usuario(nome='João', idade=25)
     session.add(novo_usuario)
-    session.commit()
-except:
-    session.rollback()
-    raise
-finally:
-    session.close()
+    # O commit é feito automaticamente aqui, se não houver exceções
+    # O rollback é automaticamente chamado se uma exceção ocorrer
+    # A sessão é fechada automaticamente ao sair do bloco with

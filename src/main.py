@@ -18,3 +18,11 @@ class Usuario(Base):
 # Criar as tabelas no banco de dados
 Base.metadata.create_all(engine)
 
+Session = sessionmaker(bind=engine)
+session = Session()
+
+novo_usuario = Usuario(nome='Matheus', idade=28)
+session.add(novo_usuario)
+session.commit()
+
+print("Usuário inserido com sucesso.")

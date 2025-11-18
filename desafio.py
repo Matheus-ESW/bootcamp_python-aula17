@@ -1,6 +1,5 @@
-from sqlalchemy import create_engine, Column, Integer, String, ForeignKey, func
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import relationship, sessionmaker
+from sqlalchemy import create_engine, Column, Integer, String, ForeignKey
+from sqlalchemy.orm import relationship, sessionmaker, declarative_base
 from sqlalchemy.exc import SQLAlchemyError
 
 Base = declarative_base()
@@ -24,7 +23,9 @@ class Produto(Base):
     # Estabelece a relação entre Produto e Fornecedor
     fornecedor = relationship("Fornecedor")
 
-engine = create_engine('sqlite:///:desafio_db.db:', echo=True)
+DB_PATH = r"C:\Users\mathe\Documents\Workspace\Jornada\Bootcamp - Python16-20\bootcamp_python-aula17\database\desafio.db"
+engine = create_engine(f"sqlite:///{DB_PATH}", echo=True)
+
 Base.metadata.create_all(engine)
 
 Session = sessionmaker(bind=engine)
@@ -59,3 +60,15 @@ try:
         session.commit()
 except SQLAlchemyError as e:
     print(f"Erro ao inserir produtos: {e}")    
+
+# Session = sessionmaker(bind=engine)
+# session = Session()
+
+# resultado = session.query(
+#     Fornecedor.nome,
+#     func.sum(Produto.preco).label('total_preco')
+# ).join(Produto, Fornecedor.id == Produto.fornecedor_id
+# ).group_by(Fornecedor.nome).all()
+
+# for nome, total_preco in resultado:
+#     print(f"Fornecedor: {nome}, Total Preço: {total_preco}")        

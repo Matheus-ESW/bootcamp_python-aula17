@@ -21,8 +21,12 @@ Base.metadata.create_all(engine)
 Session = sessionmaker(bind=engine)
 session = Session()
 
-novo_usuario = Usuario(nome='Matheus', idade=28)
-session.add(novo_usuario)
-session.commit()
+## ADICIONA USUARIO BD
+# novo_usuario = Usuario(nome='Matheus', idade=28)
+# session.add(novo_usuario)
+# session.commit()
+# print("Usuário inserido com sucesso.")
 
-print("Usuário inserido com sucesso.")
+## REALIZA CONSULTA (SELECT) DO BD FILTRANDO PELA COLUNA NOME
+usuario = session.query(Usuario).filter_by(nome='Matheus').first()
+print(f"Usuário encontrado: {usuario.nome}, Idade: {usuario.idade}")

@@ -16,10 +16,10 @@ class Usuario(Base):
     idade = Column(Integer)
 
 # Criar as tabelas no banco de dados
-Base.metadata.create_all(engine)
+# Base.metadata.create_all(engine)
 
-Session = sessionmaker(bind=engine)
-session = Session()
+# Session = sessionmaker(bind=engine)
+# session = Session()
 
 ## ADICIONA USUARIO BD
 # novo_usuario = Usuario(nome='Matheus', idade=28)
@@ -28,5 +28,18 @@ session = Session()
 # print("Usuário inserido com sucesso.")
 
 ## REALIZA CONSULTA (SELECT) DO BD FILTRANDO PELA COLUNA NOME
-usuario = session.query(Usuario).filter_by(nome='Matheus').first()
-print(f"Usuário encontrado: {usuario.nome}, Idade: {usuario.idade}")
+# usuario = session.query(Usuario).filter_by(nome='Matheus').first()
+# print(f"Usuário encontrado: {usuario.nome}, Idade: {usuario.idade}")
+
+Session = sessionmaker(bind=engine)
+session = Session()
+
+try:
+    novo_usuario = Usuario(nome='Ana', idade=25)
+    session.add(novo_usuario)
+    session.commit()
+except:
+    session.rollback()
+    raise
+finally:
+    session.close()
